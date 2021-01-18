@@ -1,6 +1,6 @@
 {
     "name": "tolkam/html-processor-custom-tags",
-    "description": "HTML processor middleware for easy custom HTML tags manipulation",
+    "description": "HTML processor middleware for easier HTML tags manipulation",
     "type": "library",
     "license": "proprietary",
     "minimum-stability": "dev",
