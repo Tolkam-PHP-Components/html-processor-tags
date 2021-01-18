@@ -1,5 +1,5 @@
 {
-    "name": "tolkam/html-processor-custom-tags",
+    "name": "tolkam/html-processor-tags",
     "description": "HTML processor middleware for easier HTML tags manipulation",
     "type": "library",
     "license": "proprietary",
