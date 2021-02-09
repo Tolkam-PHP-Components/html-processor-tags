@@ -28,4 +28,16 @@ interface ParametersAwareInterface
      * @return mixed
      */
     public function getParam(string $name, $default = null);
+    
+    /**
+     * Gets all parameters
+     *
+     * @return array
+     */
+    public function getParams(): array;
+    
+    /**
+     * Clears parameters
+     */
+    public function clearParams(): void;
 }

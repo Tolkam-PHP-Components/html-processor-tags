@@ -28,6 +28,7 @@ class ParamsProvidingListener implements ResolveListenerInterface
         TagsHandlerInterface $handler
     ): void {
         if ($handler instanceof ParametersAwareInterface) {
+            $handler->clearParams();
             $handler->setParams($this->params);
         }
     }

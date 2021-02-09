@@ -77,13 +77,21 @@ trait ParametersAwareTrait
     }
     
     /**
-     * Gets the params
+     * Gets all parameters
      *
      * @return array
      */
     public function getParams(): array
     {
         return $this->params;
+    }
+    
+    /**
+     * Clears parameters
+     */
+    public function clearParams(): void
+    {
+        $this->params = [];
     }
     
     /**
