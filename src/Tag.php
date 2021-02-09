@@ -6,6 +6,7 @@ use DOMElement;
 use DOMNode;
 use InvalidArgumentException;
 use Tolkam\DOM\Manipulator\Manipulator;
+use Tolkam\Utils\Str;
 
 /**
  * Encapsulates common element operations
@@ -74,15 +75,25 @@ class Tag
     /**
      * Gets params
      *
+     * @param bool $cast
+     *
      * @return array
      */
-    public function getParams(): array
+    public function getParams(bool $cast = true): array
     {
         $params = [];
         
         /** @var DOMNode $attribute */
         foreach ($this->element->getNode(0)->attributes as $attribute) {
-            $params[$attribute->nodeName] = $attribute->nodeValue;
+            $name = Str::camelCase($attribute->nodeName);
+            $value = $attribute->nodeValue;
+            
+            if ($cast) {
+                $value = $value === 'true' ? true : $value;
+                $value = $value === 'false' ? false : $value;
+            }
+            
+            $params[$name] = $value;
         }
         
         return $params;

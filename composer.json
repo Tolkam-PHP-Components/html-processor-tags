@@ -14,7 +14,8 @@
         "php": ">=7.4",
         "ext-dom": "*",
         "psr/container": "^1.0",
-        "tolkam/html-processor": "^1.0@dev"
+        "tolkam/html-processor": "^1.0@dev",
+        "tolkam/utils": "^1.0@dev"
     },
     "extra": {
         "branch-alias": {
