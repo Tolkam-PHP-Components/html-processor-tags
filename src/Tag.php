@@ -65,9 +65,9 @@ class Tag
      * @param string $name
      * @param null   $default
      *
-     * @return string|null
+     * @return string|mixed
      */
-    public function getParam(string $name, $default = null): ?string
+    public function getParam(string $name, $default = null)
     {
         return $this->element->getAttribute($name) ?? $default;
     }
