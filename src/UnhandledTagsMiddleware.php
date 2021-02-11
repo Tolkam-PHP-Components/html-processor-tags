@@ -28,11 +28,9 @@ class UnhandledTagsMiddleware implements MiddlewareInterface
         Manipulator $dom,
         MiddlewareHandlerInterface $middlewareHandler
     ): Manipulator {
-        // replace in body or first root
-        $xPathRoot = $dom->isHtmlDocument() ? '//body' : '//*[1]';
-        $xPath = $xPathRoot . "/*[starts-with(local-name(), '" . $this->tagsPrefix . "')]";
-        
+        $xPath = "//*[starts-with(local-name(), '" . $this->tagsPrefix . "')]";
         $found = $dom->filterXPath($xPath);
+        
         if ($found->count()) {
             $found->each(function (Manipulator $e) use ($dom) {
                 $comment = $dom->createComment('unhandled: ' . $e->nodeName());
@@ -40,6 +38,6 @@ class UnhandledTagsMiddleware implements MiddlewareInterface
             });
         }
         
-        return $dom;
+        return $middlewareHandler->handle($dom);
     }
 }
