@@ -7,7 +7,7 @@ use Tolkam\HTMLProcessor\Tags\Handler\TagsHandlerInterface;
 interface TagsHandlerLoaderInterface
 {
     /**
-     * Loads the processor
+     * Loads the handler
      *
      * @param string $alias
      *
