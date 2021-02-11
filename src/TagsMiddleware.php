@@ -2,7 +2,7 @@
 
 namespace Tolkam\HTMLProcessor\Tags;
 
-use SplObjectStorage;
+use SplDoublyLinkedList;
 use Tolkam\DOM\Manipulator\Manipulator;
 use Tolkam\HTMLProcessor\MiddlewareHandlerInterface;
 use Tolkam\HTMLProcessor\MiddlewareInterface;
@@ -16,26 +16,32 @@ class TagsMiddleware implements MiddlewareInterface
     use LoadersAwareTrait;
     
     /**
+     *  Position of the resolve listener in the queue
+     */
+    public const LISTENER_PREPEND = 1;
+    public const LISTENER_APPEND  = 2;
+    
+    /**
      * Handler registrations
      * @var array
      */
     private array $registrations = [];
     
     /**
-     * @var SplObjectStorage|ResolveListenerInterface[]
+     * @var SplDoublyLinkedList|ResolveListenerInterface[]
      */
-    private SplObjectStorage $resolveListeners;
+    private SplDoublyLinkedList $resolveListeners;
     
     /**
      * @param TagsHandlerLoaderInterface[] $loaders
      */
     public function __construct(array $loaders = [])
     {
-        $this->resolveListeners = new SplObjectStorage;
-        
         foreach ($loaders as $loader) {
             $this->addHandlerLoader($loader);
         }
+        
+        $this->resolveListeners = new SplDoublyLinkedList;
     }
     
     /**
@@ -100,12 +106,22 @@ class TagsMiddleware implements MiddlewareInterface
      * Adds processor resolve listener
      *
      * @param ResolveListenerInterface $resolveListener
+     * @param int                      $position
      *
      * @return $this
      */
-    public function addResolveListener(ResolveListenerInterface $resolveListener): self
-    {
-        $this->resolveListeners->attach($resolveListener);
+    public function addResolveListener(
+        ResolveListenerInterface $resolveListener,
+        int $position = self:: LISTENER_APPEND
+    ): self {
+        
+        if ($position === self::LISTENER_APPEND) {
+            $this->resolveListeners->push($resolveListener);
+        }
+        
+        if ($position === self::LISTENER_PREPEND) {
+            $this->resolveListeners->unshift($resolveListener);
+        }
         
         return $this;
     }
@@ -119,8 +135,11 @@ class TagsMiddleware implements MiddlewareInterface
      * @return TagsHandlerInterface
      * @throws TagsMiddlewareException
      */
-    private function resolveRegistration(string $tagName, $registration): TagsHandlerInterface
-    {
+    private function resolveRegistration(
+        string $tagName,
+        $registration
+    ): TagsHandlerInterface {
+        
         if ($registration instanceof TagsHandlerInterface) {
             $handler = $registration;
         }
