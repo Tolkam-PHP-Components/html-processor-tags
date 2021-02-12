@@ -3,6 +3,7 @@
 namespace Tolkam\HTMLProcessor\Tags;
 
 use Tolkam\DOM\Manipulator\Manipulator;
+use Tolkam\HTMLProcessor\Context;
 use Tolkam\HTMLProcessor\MiddlewareHandlerInterface;
 use Tolkam\HTMLProcessor\MiddlewareInterface;
 
@@ -26,7 +27,8 @@ class UnhandledTagsMiddleware implements MiddlewareInterface
      */
     public function apply(
         Manipulator $dom,
-        MiddlewareHandlerInterface $middlewareHandler
+        MiddlewareHandlerInterface $middlewareHandler,
+        Context $context
     ): Manipulator {
         $xPath = "//*[starts-with(local-name(), '" . $this->tagsPrefix . "')]";
         $found = $dom->filterXPath($xPath);
@@ -38,6 +40,6 @@ class UnhandledTagsMiddleware implements MiddlewareInterface
             });
         }
         
-        return $middlewareHandler->handle($dom);
+        return $middlewareHandler->handle($dom, $context);
     }
 }
