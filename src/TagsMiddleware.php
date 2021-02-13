@@ -67,7 +67,7 @@ class TagsMiddleware implements MiddlewareInterface
                 });
                 
                 $handler = $this->resolveRegistration($tagName, $registration, $context);
-                $handler->handle($tagName, $tags, new NodesFactory($dom));
+                $handler->handle($tagName, $tags, $context, new NodesFactory($dom));
             }
         }
         

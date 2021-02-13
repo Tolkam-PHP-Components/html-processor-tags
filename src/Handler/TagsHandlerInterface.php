@@ -2,6 +2,7 @@
 
 namespace Tolkam\HTMLProcessor\Tags\Handler;
 
+use Tolkam\HTMLProcessor\Context;
 use Tolkam\HTMLProcessor\Tags\NodesFactory;
 use Tolkam\HTMLProcessor\Tags\Tag;
 
@@ -12,9 +13,15 @@ interface TagsHandlerInterface
      *
      * @param string       $tagName
      * @param Tag[]        $tags
+     * @param Context      $context
      * @param NodesFactory $factory
      *
      * @return void
      */
-    public function handle(string $tagName, array $tags, NodesFactory $factory): void;
+    public function handle(
+        string $tagName,
+        array $tags,
+        Context $context,
+        NodesFactory $factory
+    ): void;
 }
